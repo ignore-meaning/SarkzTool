@@ -4,7 +4,7 @@ filename = "operationData.json"
 
 
 '''
-read()：读取 json 文件内容并翻译为 python 对象
+read()：读取 json 文件内容并翻译为 python 对象（大概是字典）
 write(content)：将 python 对象（大概是字典） content 翻译为 json 内容并覆写 json 文件
 rewrite()：将 json 文件用自己本身的内容覆写（用于统一格式）
 '''
