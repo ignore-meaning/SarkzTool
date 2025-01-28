@@ -4,7 +4,7 @@ filename = "operationData.json"
 
 
 '''
-read()：读取 operationData.json 文件内容并翻译为 python 能理解的对象（大概是字典）
+read()：读取 operationData.json 文件内容并翻译为 python 能理解的对象（大概是字典）并返回。
 write(content)：将 python 对象（大概是字典） content 翻译为 json 内容并覆写 operationData.json 文件
 rewrite()：将 operationData.json 文件用自己本身的内容覆写一遍（用于统一格式）
 '''
@@ -26,7 +26,7 @@ def rewrite():
 
 
 '''
-subsetQ(list1,list2)：判断列表 list1 是否为 list2 的“子集”（即前者的元素也是后者的元素，不考虑顺序）。空集是任意集合（包括另一个空集）的子集。
+subsetQ(list1,list2)：判断列表 list1 是否为 list2 的“子集”（即前者的元素也是后者的元素，不考虑顺序）。空集是任意集合（包括另一个空集）的子集。返回值为 True 或 False。
 
 add_operation(level, operation_name, operator_list, treasure_list)：
     向 operationData.json 文件中添加作战记录，所需参数分别为：
@@ -37,9 +37,9 @@ add_operation(level, operation_name, operator_list, treasure_list)：
         年代名称 era
     向 operationData.json 文件中添加作战记录会考虑以下情形：
         若该关卡尚未被创建过，这次会创建该关卡；
-        若 operationData.json 文件中已经有了上位记录（用更少的干员，更少的藏品），则这次的作战记录不会被添加（若消耗的时间过长，该功能可以被关闭）
+        若 operationData.json 文件中已经有了更优记录（用更少的干员，更少的藏品），则这次的作战记录不会被添加（若消耗的时间过长，该功能可以被关闭）
 '''
-def subsetQ(list1:list,list2:list):
+def subsetQ(list1:list, list2:list):
     m,n = len(list1), len(list2)
     if m == 0:
         return True
@@ -63,7 +63,7 @@ def add_operation(level:int, operation_name:str, operator_list:list, treasure_li
         content[LevelStr][operation_name] = []
     operation_list = content[LevelStr][operation_name]
     flag = True
-    for operation in operation_list:    # 若想取消判断上位记录的功能，将该 for 循环语句注释掉即可
+    for operation in operation_list:    # 若想取消“判断是否存在更优记录”的功能，将该 for 循环语句注释掉即可
         if operation["年代"] == era and subsetQ(operation['干员'], operator_list) and subsetQ(operation['藏品'], treasure_list):
             flag = False
             break
