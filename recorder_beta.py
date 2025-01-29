@@ -54,6 +54,7 @@ class MainPage(QFrame):
         self.Operation_box = QComboBox()
         self.Operation_box.addItems(operation_list['1'])
         self.Level_box.currentTextChanged.connect(self.LevelChange)
+        self.emergency_box = QCheckBox('紧急？')
         self.operator_button = QPushButton('干员')
         self.operator_button.clicked.connect(self.openOperatorPage)
         self.treasure_button = QPushButton('藏品')
@@ -65,6 +66,7 @@ class MainPage(QFrame):
 
         self.hbox.addWidget(self.Level_box)
         self.hbox.addWidget(self.Operation_box)
+        self.hbox.addWidget(self.emergency_box)
         self.hbox.addWidget(self.operator_button)
         self.hbox.addWidget(self.treasure_button)
         self.hbox.addWidget(self.Era_box)
@@ -105,7 +107,7 @@ class MainPage(QFrame):
         self.treasure_page.show()   # 打开藏品选择子页面
 
     def Submit(self):
-        JsFunctions.add_operation(int(self.Level_box.currentText()), self.Operation_box.text(), self.collectedOperator, self.collectedTreasure, self.Era_box.currentText()) # 调用 JsFunctions 的函数提交作战
+        JsFunctions.add_operation(int(self.Level_box.currentText()), ('','紧急')[self.emergency_box.isChecked()] + self.Operation_box.currentText(), self.collectedOperator, self.collectedTreasure, self.Era_box.currentText()) # 调用 JsFunctions 的函数提交作战
 
 class SonPage(QDialog):
     # 子页面所属的类
