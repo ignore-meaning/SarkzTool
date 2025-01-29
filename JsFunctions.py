@@ -22,6 +22,10 @@ def rewrite():
     write(content)
     return
 
+def clear():
+    write({})
+    return
+
 
 
 
@@ -39,7 +43,7 @@ add_operation(level, operation_name, operator_list, treasure_list)：
         若该关卡尚未被创建过，这次会创建该关卡；
         若 operationData.json 文件中已经有了更优记录（用更少的干员，更少的藏品），则这次的作战记录不会被添加（若消耗的时间过长，该功能可以被关闭）
 '''
-def subsetQ(list1:list, list2:list):
+def subsetQ(list1:list, list2:list) -> bool:
     m,n = len(list1), len(list2)
     if m == 0:
         return True
@@ -56,7 +60,7 @@ def subsetQ(list1:list, list2:list):
 
 def add_operation(level:int, operation_name:str, operator_list:list, treasure_list:list, era:str):
     content = read()
-    LevelStr="Level%d"%(level)
+    LevelStr="Level %d"%(level)
     if not(LevelStr in content):
         content[LevelStr] = {}
     if not(operation_name in content[LevelStr]):
