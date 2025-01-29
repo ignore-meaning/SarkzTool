@@ -5,9 +5,18 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import JsFunctions
 
-# 干员池与藏品池，目前直接手敲进了 python 文件里，之后应该要单独写一个程序通过读取 img 文件夹的信息自动获得这两个列表
-operator_list = ['阿米娅(近卫)_2','承曦格雷伊_2','铎铃_2','菲莱_2','古米_2','寒芒克洛丝_2','赫默_2','卡达','凯尔希_2','砾','魔王_2','桑葚_2','深律_2','桃金娘','巫恋_2','稀音_2','锡人_2','晓歌_2','伊桑','陨星_2']
+# 干员池、藏品池与作战，目前直接手敲进了 python 文件里，之后应该要单独写一个程序通过读取 img 文件夹的信息自动获得列表
+operator_list = ['阿米娅(近卫)_2','承曦格雷伊_2','铎铃_2','菲莱_2','古米','古米_2','寒芒克洛丝_2','赫默_2','卡达','凯尔希_2','砾','魔王_2','桑葚_2','深律_2','桃金娘','巫恋_2','稀音_2','锡人_2','晓歌_2','伊桑','陨星_2']
 treasure_list = ['国王的铠甲','国王的新枪','国王的延伸','轰鸣之手','诸王的冠冕']
+operation_list = {
+    '1': ['坏邻居','公害','安全检查','夺路而逃','冰川期'],
+    '2': ['见闻峰会','拆东补西','排风口','炉工志愿队','有序清场','卡兹瀑布','丛林密布'],
+    '3': ['大旗一盘','血脉之辩','遮天蔽日','劳作的清晨','溃乱魔典','盲盒商场','火力小队','机动队','守望的河水','卫士不语功','存亡之战','或然面纱','奉献','斩首','离歌的庭院','赴敌者','王冠之下'],
+    '4': ['年代断层','朽败考察','飞越大水坑','腥红甬道','现代战争法则','假想对冲','幽灵城','神出鬼没','混沌','争议频发'],
+    '5': ['寄人城池下','计划耕种','巫咒同盟','通道封锁','无罪净土','浮空城接舷战','残破学院','建制','莱茵卫士','紧急授课','朝谒','思维纠正','魂灵朝谒'],
+    '6': ['谋求共识','神圣的渴求','洞天福地','外道','圣城','授法','不容拒绝'],
+    '7': ['不容拒绝']
+}
 
 class MainPage(QFrame):
     def __init__(self):
@@ -42,7 +51,9 @@ class MainPage(QFrame):
         '''
         self.Level_box = QComboBox()
         self.Level_box.addItems(['1','2','3','4','5','6'])
-        self.Operation_box = QLineEdit()
+        self.Operation_box = QComboBox()
+        self.Operation_box.addItems(operation_list['1'])
+        self.Level_box.currentTextChanged.connect(self.LevelChange)
         self.operator_button = QPushButton('干员')
         self.operator_button.clicked.connect(self.openOperatorPage)
         self.treasure_button = QPushButton('藏品')
@@ -66,6 +77,10 @@ class MainPage(QFrame):
         # 定义两个列表，分别用于存放 选择的干员 与 选择的藏品
         self.collectedOperator = []
         self.collectedTreasure = []
+
+    def LevelChange(self):
+        self.Operation_box.clear()
+        self.Operation_box.addItems(operation_list[self.Level_box.currentText()])
 
     def Text1Change(self):
         # 更新第一个文本框的内容
@@ -108,8 +123,10 @@ class SonPage(QDialog):
         self.grid= QGridLayout(self)
         if self.type == '干员':
             self.grid_setlayout(operator_list)
+            self.setWindowIcon(QIcon('img/operators/头像_阿米娅(近卫)_2.png'))
         elif self.type == '藏品':
             self.grid_setlayout(treasure_list)
+            self.setWindowIcon(QIcon('img/treasures/国王的新枪.png'))
     
     def grid_setlayout(self,content:list):
         # 用于设置布局
@@ -118,7 +135,7 @@ class SonPage(QDialog):
         self.layout_list = []
         for i in range(m):
             j = 0
-            while i*5 + j + 1 <= n:
+            while i*5 + j + 1 <= n and j <= 4:
                 self.layout_list.append(QCheckBox(self))
                 if self.type == '干员':
                     address = 'img/operators/头像_'+content[i*5+j]+'.png'
