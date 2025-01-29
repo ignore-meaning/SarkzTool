@@ -1,9 +1,11 @@
+# 该程序基本没有可扩展性，也没有任何自定义样式，因此仅作为前期过渡使用
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import JsFunctions
 
+# 干员池与藏品池，目前直接手敲进了 python 文件里，之后应该要单独写一个程序通过读取 img 文件夹的信息自动获得这两个列表
 operator_list = ['阿米娅(近卫)_2','承曦格雷伊_2','铎铃_2','菲莱_2','古米_2','寒芒克洛丝_2','赫默_2','卡达','凯尔希_2','砾','魔王_2','桑葚_2','深律_2','桃金娘','巫恋_2','稀音_2','锡人_2','晓歌_2','伊桑','陨星_2']
 treasure_list = ['国王的铠甲','国王的新枪','国王的延伸','轰鸣之手','诸王的冠冕']
 
@@ -16,7 +18,9 @@ class MainPage(QFrame):
     
     def initUI(self):
         self.setWindowTitle('萨卡兹肉鸽奇妙小工具')
-        self.setWindowIcon(QIcon('img/operators/头像_魔王_2.png'))
+        self.setWindowIcon(QIcon('img/operators/头像_凯尔希_2.png'))
+        
+        # 此处定义 垂直布局 self.vbox 和 水平布局 self.hbox 嵌套使用。页面下 2/3 的部分给了 self.bottom_midpage1 和 self.bottom_midpage2（用来盛放信息框，显示选择的干员与藏品）
         self.vbox = QVBoxLayout(self)
         self.above_midpage = QWidget()
         self.bottom_midpage1 = QTextBrowser()
@@ -27,9 +31,17 @@ class MainPage(QFrame):
 
         self.hbox = QHBoxLayout(self.above_midpage)
 
+        '''
+        此处定义了 6 个部件，分别为：
+        self.Level_box，下拉式菜单，用于选择“层数”
+        self.Operation_box，单行输入框，用于输入“关卡名”
+        self.operator_button，按钮，用于打开选择干员的子页面；绑定至 self.openOperatorPage 函数，用于打开子页面
+        self.treasure_button，按钮，用于打开选择藏品的子页面；绑定至 self.openTreasurePage 函数，用于打开子页面
+        self.Era_box，下拉式菜单，用于选择“年代”
+        self.Submit_button，按钮，用于提交“作战”；绑定至 self.Submit 函数，用于提交作战
+        '''
         self.Level_box = QComboBox()
         self.Level_box.addItems(['1','2','3','4','5','6'])
-        self.Level_box.currentIndexChanged.connect(self.Text1Change)
         self.Operation_box = QLineEdit()
         self.operator_button = QPushButton('干员')
         self.operator_button.clicked.connect(self.openOperatorPage)
@@ -47,12 +59,16 @@ class MainPage(QFrame):
         self.hbox.addWidget(self.Era_box)
         self.hbox.addWidget(self.Submit_button)
 
+        # 创建两个子页面 self.operator_page 和 self.treasure_page
         self.operator_page = SonPage('干员', self)
         self.treasure_page = SonPage('藏品', self)
+
+        # 定义两个列表，分别用于存放 选择的干员 与 选择的藏品
         self.collectedOperator = []
         self.collectedTreasure = []
 
     def Text1Change(self):
+        # 更新第一个文本框的内容
         self.collectedOperator = []
         for i in range(len(operator_list)):
             if self.operator_page.layout_list[i].isChecked():
@@ -60,6 +76,7 @@ class MainPage(QFrame):
         self.bottom_midpage1.setText(str(self.collectedOperator))
 
     def Text2Change(self):
+        # 更新第二个文本框的内容
         self.collectedTreasure = []
         for i in range(len(treasure_list)):
             if self.treasure_page.layout_list[i].isChecked():
@@ -67,25 +84,24 @@ class MainPage(QFrame):
         self.bottom_midpage2.setText(str(self.collectedTreasure))
     
     def openOperatorPage(self):
-        self.operator_page.show()
+        self.operator_page.show()   # 打开干员选择子页面
     
     def openTreasurePage(self):
-        self.treasure_page.show()
+        self.treasure_page.show()   # 打开藏品选择子页面
 
     def Submit(self):
-        self.Text1Change()
-        self.Text2Change()
-        JsFunctions.add_operation(int(self.Level_box.currentText()), self.Operation_box.text(), self.collectedOperator, self.collectedTreasure, self.Era_box.currentText())
+        JsFunctions.add_operation(int(self.Level_box.currentText()), self.Operation_box.text(), self.collectedOperator, self.collectedTreasure, self.Era_box.currentText()) # 调用 JsFunctions 的函数提交作战
 
 class SonPage(QDialog):
-    def __init__(self,type,father):
+    # 子页面所属的类
+    def __init__(self, type, father):   # type 决定了实体化的子页面到底是“干员子页面”还是“藏品子页面”；father 参数使得子页面也可以调用父页面里的变量或函数
         super().__init__()
-        self.layout_list = []
+        self.layout_list = []       # 一种取巧的方式。子页面要呈现许多干员或藏品以供选择，因此选择 QGridLayout 布局。为了不给每一个选项小部件都起名字，直接用一个列表把它们装起来。
         self.type = type
         self.father = father
         self.initUI()
         for unit in self.layout_list:
-            unit.toggled.connect(self.pp)
+            unit.toggled.connect(self.pp)   # self.layout_list 列表中的元素为许多 QCheckBox，给它们所有添加上一个事件监视器（当选择发生变动时调用 self.pp 函数，也就是改变父页面的两个文本框里的内容）
     
     def initUI(self):
         self.setWindowTitle(self.type)
@@ -96,6 +112,7 @@ class SonPage(QDialog):
             self.grid_setlayout(treasure_list)
     
     def grid_setlayout(self,content:list):
+        # 用于设置布局
         n = len(content)
         m = n//5 + 1
         self.layout_list = []
