@@ -1,6 +1,5 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget
-from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
 
