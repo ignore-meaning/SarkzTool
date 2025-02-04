@@ -11,11 +11,12 @@ class CustomButton(QPushButton):
         # 设置按钮的初始样式
         self.setStyleSheet("""
             QPushButton {
-                background-color: #e3dede; /* 灰色背景 */
+                background-color: #cccccc; /* 灰色背景 */
                 color: black; /* 文字颜色 */
-                border: 2px solid gray; /* 黑色边框 */
+                border: 2.5px solid gray; /* 黑色边框 */
                 padding: 10px 20px; /* 内边距 */
                 font-size: 16px; /* 字体大小 */
+                border-radius: 5px;
 
             }
             QPushButton:hover {
@@ -45,7 +46,7 @@ class MyApp(QWidget):
         layout = QVBoxLayout()
 
         # 创建一个自定义按钮，点击时触发 self.custom_action 方法
-        button = CustomButton('Click Me', self.custom_action)
+        button = CustomButton('干员列表', self.custom_action)
         layout.addWidget(button)
 
         self.setLayout(layout)
