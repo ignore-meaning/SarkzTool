@@ -1,6 +1,6 @@
 import json
 import os
-filename = os.path.join(os.path.dirname(__file__), '../operationData_draft.json')
+filename = os.path.join(os.path.dirname(__file__), '../data/operationData_draft.json')
 
 
 

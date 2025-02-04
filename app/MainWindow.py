@@ -130,9 +130,9 @@ class MainWindow(QMainWindow):  # 类名改为 PascalCase 规范
 
             JsFunctions.add_operation(
                 level=level,
-                operation=operation,
-                operators=self.selected_operators,
-                treasures=self.selected_treasures,
+                operation_name=operation,
+                operator_list=self.selected_operators,
+                treasure_list=self.selected_treasures,
                 era=era
             )
             QMessageBox.information(self, '提交成功', '作战信息已提交')
