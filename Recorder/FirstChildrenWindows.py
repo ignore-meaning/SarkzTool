@@ -3,7 +3,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import os
 from common import Buttons
-
 img_path = os.path.join(os.path.dirname(__file__), '../img/')
 class FirstChildrenWindow(QDialog):
     selection_changed = pyqtSignal(list)  # 新增选择变更信号
@@ -51,7 +50,6 @@ class FirstChildrenWindow(QDialog):
 
             self.grid_layout.addWidget(imagebuton, row, col, Qt.AlignCenter)
             self.imagebuttons.append(imagebuton)
-
 
     def get_icon_path(self, content):
         """获取图标路径"""

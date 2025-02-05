@@ -17,4 +17,3 @@ class CustomComboBox(QComboBox):
         """鼠标离开时触发"""
         super().leaveEvent(event)
         self.setCursor(Qt.ArrowCursor)  # 隐藏下拉菜单
-
