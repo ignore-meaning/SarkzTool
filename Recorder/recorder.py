@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from Recorder.FirstChildrenWindows import FirstChildrenWindow
 from Scripts import JsFunctions
+from common import Buttons,ComboBox
 
 operator_list = ['阿米娅_2','阿米娅(近卫)_2','阿米娅(医疗)_2','承曦格雷伊_2','铎铃_2','菲莱_2','古米','古米_2','寒芒克洛丝_2','赫默_2','卡达','凯尔希_2','砾','迷迭香','迷迭香_2','魔王_2','桑葚_2','深律_2','石英','桃金娘','巫恋_2','稀音_2','锡人_2','晓歌_2','伊桑','陨星_2','火海','离迁','侵略','兴亡']
 treasure_list = ['国王的铠甲','国王的新枪','国王的延伸','轰鸣之手','诸王的冠冕']
@@ -38,18 +39,18 @@ class MainPage(QWidget):  # 类名改为 PascalCase 规范
         control_layout.setSpacing(10)
 
         # 初始化控件
-        self.level_combo = QComboBox()
+        self.level_combo = ComboBox.CustomComboBox()
         self.level_combo.addItems(['1', '2', '3', '4', '5', '6'])
 
-        self.operation_combo = QComboBox()
+        self.operation_combo = ComboBox.CustomComboBox()
         self.operation_combo.addItems(operation_list['1'])
 
         self.emergency_check = QCheckBox('紧急')
-        self.operator_btn = QPushButton('干员')
-        self.treasure_btn = QPushButton('藏品')
-        self.era_combo = QComboBox()
+        self.operator_btn = Buttons.CustomButton('干员')
+        self.treasure_btn = Buttons.CustomButton('藏品')
+        self.era_combo = ComboBox.CustomComboBox()
         self.era_combo.addItems(['无', '天灾年代', '魔王年代', '苦难年代', '奇观年代', '拥挤年代'])
-        self.submit_btn = QPushButton('提交')
+        self.submit_btn = Buttons.CustomButton('提交')
 
         # 添加控件到布局
         control_layout.addWidget(self.level_combo)
@@ -62,9 +63,9 @@ class MainPage(QWidget):  # 类名改为 PascalCase 规范
 
         # 信息显示区域
         self.operator_display = QTextBrowser()
-        self.operator_display.setMaximumHeight(80)
+        self.operator_display.setMaximumHeight(150)
         self.treasure_display = QTextBrowser()
-        self.treasure_display.setMaximumHeight(80)
+        self.treasure_display.setMaximumHeight(50)
 
         # 组合布局
         main_layout.addLayout(control_layout)
@@ -123,8 +124,8 @@ class MainPage(QWidget):  # 类名改为 PascalCase 规范
             operation = ('紧急' if self.emergency_check.isChecked() else '') + self.operation_combo.currentText()
             era = self.era_combo.currentText()
 
-            if not operation:
-                raise ValueError("请选择关卡")
+            if not self.selected_operators:
+                raise ValueError("请选择干员")
 
             JsFunctions.add_operation(
                 level=level,

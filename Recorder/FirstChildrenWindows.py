@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import os
+from common import Buttons
 img_path = os.path.join(os.path.dirname(__file__), '../img/')
 class FirstChildrenWindow(QDialog):
     selection_changed = pyqtSignal(list)  # 新增选择变更信号
@@ -10,7 +11,7 @@ class FirstChildrenWindow(QDialog):
         super().__init__(parent)
         self.window_type = window_type
         self.content_list = content_list
-        self.checkboxes = []  # 更明确的命名
+        self.imagebuttons = []  # 更明确的命名
 
         self.init_ui()
         self.setup_grid_layout()
@@ -43,24 +44,12 @@ class FirstChildrenWindow(QDialog):
         for index, content in enumerate(self.content_list):
             row = index // columns
             col = index % columns
-
-            checkbox = QCheckBox(self)
-            self.setup_checkbox_icon(checkbox, content)
-            checkbox.toggled.connect(self.emit_selection_changed)  # 连接信号
-
-            self.grid_layout.addWidget(checkbox, row, col, Qt.AlignCenter)
-            self.checkboxes.append(checkbox)
-
-    def setup_checkbox_icon(self, checkbox, content):
-        """设置复选框图标"""
-        try:
             icon_path = self.get_icon_path(content)
-            checkbox.setIcon(QIcon(icon_path))
-            checkbox.setIconSize(QSize(60, 60))
-            checkbox.setToolTip(content)  # 添加工具提示
-        except Exception as e:
-            print(f"加载图标失败: {str(e)}")
-            checkbox.setText(content)  # 图标加载失败时显示文字
+            imagebuton = Buttons.ImageButton(icon_path)
+            imagebuton.clicked.connect(self.emit_selection_changed)  # 连接信号
+
+            self.grid_layout.addWidget(imagebuton, row, col, Qt.AlignCenter)
+            self.imagebuttons.append(imagebuton)
 
     def get_icon_path(self, content):
         """获取图标路径"""
@@ -75,7 +64,7 @@ class FirstChildrenWindow(QDialog):
     def emit_selection_changed(self):
         """发射选择变更信号"""
         selected = [self.content_list[i]
-                    for i, cb in enumerate(self.checkboxes) if cb.isChecked()]
+                    for i, ib in enumerate(self.imagebuttons) if ib.is_checked()]
         self.selection_changed.emit(selected)
 
     def clear_layout(self):

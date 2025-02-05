@@ -1,40 +1,19 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QLabel
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox
+from PyQt5.QtCore import Qt
 
 class CustomComboBox(QComboBox):
-    def __init__(self, on_change, parent=None):
+    def __init__(self, parent=None):
         super().__init__(parent)
-        self.on_change = on_change
-        self.currentIndexChanged.connect(self._on_change)
+        self.setMouseTracking(True)  # 启用鼠标跟踪
+        self.setFixedSize(130, 50)
 
-    def _on_change(self, index):
-        # 调用传递进来的函数，并传递当前选中的索引和文本
-        self.on_change(index, self.currentText())
+    def enterEvent(self, event):
+        """鼠标进入时触发"""
+        super().enterEvent(event)
+        self.setCursor(Qt.PointingHandCursor)  # 模拟点击，显示下拉菜单
 
-class MyApp(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-
-    def initUI(self):
-        layout = QVBoxLayout()
-
-        # 创建一个自定义下拉框，选项改变时触发 self.on_combobox_change 方法
-        self.combobox = CustomComboBox(self.on_combobox_change)
-        self.combobox.addItem('Option 1')
-        self.combobox.addItem('Option 2')
-        self.combobox.addItem('Option 3')
-        layout.addWidget(self.combobox)
-
-        self.setLayout(layout)
-        self.setWindowTitle('Custom ComboBox Example')
-        self.show()
-
-    def on_combobox_change(self, index, text):
-        # 更新标签内容
-        print(f'Selected: {text} (Index: {index})')
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = MyApp()
-    sys.exit(app.exec_())
+    def leaveEvent(self, event):
+        """鼠标离开时触发"""
+        super().leaveEvent(event)
+        self.setCursor(Qt.ArrowCursor)  # 隐藏下拉菜单

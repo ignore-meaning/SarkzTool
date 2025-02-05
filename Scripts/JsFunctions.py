@@ -1,30 +1,34 @@
 import json
 import os
-filename = os.path.join(os.path.dirname(__file__), '../data/operationData_draft.json')
+address = {
+    'operationData_draft': os.path.join(os.path.dirname(__file__), '../data/operationData_draft.json'),
+    'operationData': os.path.join(os.path.dirname(__file__), '../data/operationData.json'),
+    'operatorData': os.path.join(os.path.dirname(__file__), '../data/operatorData.json')
+}
 
 
 
 '''
-read()：读取 operationData.json 文件内容并翻译为 python 能理解的对象（大概是字典）并返回。
-write(content)：将 python 对象（大概是字典） content 翻译为 json 内容并覆写 operationData.json 文件
-rewrite()：将 operationData.json 文件用自己本身的内容覆写一遍（用于统一格式）
+read(filename)：读取 address[filename] 文件的内容并翻译为 python 能理解的对象（大概是字典）并返回
+write(filename, content)：将 python 对象（大概是字典） content 翻译为 json 内容并覆写 address[filename] 文件
+rewrite(filename)：将 address[filename] 文件用自己本身的内容覆写一遍（用于统一格式）
 '''
-def read():
-    with open(filename, "r", encoding="utf-8") as OPD_F:
+def read(filename:str):
+    with open(address[filename], "r", encoding="utf-8") as OPD_F:
         return json.load(OPD_F)
 
-def write(content):
-    with open(filename, "w", encoding="utf-8") as OPD_F:
+def write(filename:str, content):
+    with open(address[filename], "w", encoding="utf-8") as OPD_F:
         json.dump(content, OPD_F, ensure_ascii=False, indent=4)
     return
 
-def rewrite():
-    content = read()
-    write(content)
+def rewrite(filename:str):
+    content = read(filename)
+    write(filename, content)
     return
 
-def clear():
-    write({})
+def clear(filename:str):
+    write(filename, {})
     return
 
 
@@ -60,7 +64,7 @@ def subsetQ(list1:list, list2:list) -> bool:
         return True
 
 def add_operation(level:int, operation_name:str, operator_list:list, treasure_list:list, era:str):
-    content = read()
+    content = read('operationData_draft')
     LevelStr="Level %d"%(level)
     if not(LevelStr in content):
         content[LevelStr] = {}
@@ -80,5 +84,5 @@ def add_operation(level:int, operation_name:str, operator_list:list, treasure_li
                 "年代": era
             }
         )
-    write(content)
+    write('operationData_draft', content)
     return
