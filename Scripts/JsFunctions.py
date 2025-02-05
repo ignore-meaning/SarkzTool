@@ -3,7 +3,8 @@ import os
 address = {
     'operationData_draft': os.path.join(os.path.dirname(__file__), '../data/operationData_draft.json'),
     'operationData': os.path.join(os.path.dirname(__file__), '../data/operationData.json'),
-    'operatorData': os.path.join(os.path.dirname(__file__), '../data/operatorData.json')
+    'operatorData': os.path.join(os.path.dirname(__file__), '../data/operatorData.json'),
+    'treasureData': os.path.join(os.path.dirname(__file__), '../data/treasureData.json')
 }
 
 

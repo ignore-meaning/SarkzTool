@@ -1,6 +1,7 @@
 import requests
 import JsFunctions
 import mwparserfromhell
+import os
 import time
 url = "https://prts.wiki/api.php"   # prts 站点提供的 api 接口
 
@@ -49,8 +50,9 @@ def addOperator(operatorName:str='凯尔希'):
 
 
 '''
-allOperatorNmae()：获取一个 由明日方舟所有干员名称组成的 列表。可以通过选择取消注释其中几行来顺带执行 “向 operatorData.json 文件写入该列表” 的功能
+allOperatorName()：获取一个 由明日方舟所有干员名称组成的 列表。可以通过选择取消注释其中几行来顺带执行 “向 operatorData.json 文件写入该列表” 的功能
 addAllOperatorInformation()：根据 operatorData.json 中的全干员列表获取所有干员的信息并记录在 operatorData.json 中（调用 API 不能太过频繁，此处限制为 2 秒一次，可以更改）
+allSortedOperatorName()：将干员按照游戏内的顺序排好（含精二）
 '''
 def allOperatorName() -> list:
     params = {
@@ -75,7 +77,7 @@ def allOperatorName() -> list:
 
 def addAllOperatorInformation():
     content = JsFunctions.read('operatorData')
-    operator_names = content["全干员列表"]
+    operator_names = content["全干员"]
 
     for operatorName in operator_names:
         if not(operatorName in content):
@@ -83,23 +85,47 @@ def addAllOperatorInformation():
             time.sleep(2)   # 可以更改调用 API 的间隔时间
     return
 
-def allOperatorName_2() -> list:
-    dictionary = {'先锋':0, '近卫':1, '狙击':2, '重装':3, '医疗':4, '辅助':5, '术师':6, '特种':7}
-    result = []
+def allSortedOperatorName() -> list:
+    proCom = {'先锋':0, '近卫':1, '狙击':2, '重装':3, '医疗':4, '辅助':5, '术师':6, '特种':7}
+    list0 = []
     for i in range(6):
-        result.append([])
+        list0.append([])
     for i in range(6):
         for j in range(8):
-            result[i].append([])
+            list0[i].append([])
 
-    content = JsFunctions.read('operatorData')
-    operator_names = content['全干员列表']
+    operatorData = JsFunctions.read('operatorData')
+    operator_names = operatorData['全干员']
 
     for operatorName in operator_names:
-        rarity = content[operatorName]['稀有度']
-        profession = content[operatorName]['职业']
-        result[5-rarity][dictionary[profession]].append(operatorName)
+        rarity = operatorData[operatorName]['稀有度']
+        profession = operatorData[operatorName]['职业']
+        list0[5-rarity][proCom[profession]].append(operatorName)
     
+    list1=[]
+    for i in range(6):
+        for j in range(8):
+            list1 += list0[i][j]
 
+    list2 = []
+    for operatorName in list1:
+        list2.append(operatorName)
+        if operatorData[operatorName]['稀有度'] >= 4: list2.append(operatorName + '_2')
     
-    return result
+    operatorData.update({'全干员排序': list2})
+    JsFunctions.write('operatorData', operatorData)
+
+    return list2
+
+def availableOperators():
+    filePath = os.path.join(os.path.dirname(__file__), '../img/operators/')
+
+    operators = os.listdir(filePath)
+
+    operatorData = JsFunctions.read('operatorData')
+    operator_full = operatorData['全干员排序']
+
+    operators = list(filter(lambda operatorName: '头像_'+operatorName+'.png' in operators, operator_full))
+
+    operatorData.update({'可用干员': operators})
+    JsFunctions.write('operatorData',operatorData)
