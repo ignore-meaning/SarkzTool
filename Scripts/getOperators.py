@@ -129,3 +129,4 @@ def availableOperators():
 
     operatorData.update({'可用干员': operators})
     JsFunctions.write('operatorData',operatorData)
+    return operators

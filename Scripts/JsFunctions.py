@@ -14,7 +14,7 @@ read(filename)：读取 address[filename] 文件的内容并翻译为 python 能
 write(filename, content)：将 python 对象（大概是字典） content 翻译为 json 内容并覆写 address[filename] 文件
 rewrite(filename)：将 address[filename] 文件用自己本身的内容覆写一遍（用于统一格式）
 '''
-def read(filename:str):
+def read(filename:str='operationData_draft'):
     with open(address[filename], "r", encoding="utf-8") as OPD_F:
         return json.load(OPD_F)
 
