@@ -51,7 +51,7 @@ def addOperator(operatorName:str='凯尔希'):
 
 '''
 allOperatorName()：获取一个 由明日方舟所有干员名称组成的 列表。可以通过选择取消注释其中几行来顺带执行 “向 operatorData.json 文件写入该列表” 的功能
-addAllOperatorInformation()：根据 operatorData.json 中的全干员列表获取所有干员的信息并记录在 operatorData.json 中（调用 API 不能太过频繁，此处限制为 2 秒一次，可以更改）
+addAllOperatorInformation()：根据 operatorData.json 中的全干员获取所有干员的信息并记录在 operatorData.json 中（调用 API 不能太过频繁，此处限制为 2 秒一次，可以更改）
 allSortedOperatorName()：将干员按照游戏内的顺序排好（含精二）
 '''
 def allOperatorName() -> list:
@@ -69,21 +69,23 @@ def allOperatorName() -> list:
     operator_pageid = [member['pageid'] for member in data['query']["categorymembers"]]
 
     # 可以通过注释下面三行来取消写入 operatorData.json 文件
-    # content = JsFunctions.read('operatorData')
-    # content.update({'全干员列表': operator_names})
-    # JsFunctions.write('operatorData',content)
+    operatorData = JsFunctions.read('operatorData')
+    operatorData.update({'全干员': operator_names})
+    JsFunctions.write('operatorData',operatorData)
 
     return operator_names
 
 def addAllOperatorInformation():
-    content = JsFunctions.read('operatorData')
-    operator_names = content["全干员"]
+    operatorData = JsFunctions.read('operatorData')
+    operator_names = operatorData["全干员"]
+    addedOperators = []
 
     for operatorName in operator_names:
-        if not(operatorName in content):
+        if not(operatorName in operatorData):
             addOperator(operatorName)   # 这个操作其实挺愚蠢的。每添加一个干员都要重新读取 operatorData.json 一遍
+            addedOperators.append(operatorName)
             time.sleep(2)   # 可以更改调用 API 的间隔时间
-    return
+    return addedOperators
 
 def allSortedOperatorName() -> list:
     proCom = {'先锋':0, '近卫':1, '狙击':2, '重装':3, '医疗':4, '辅助':5, '术师':6, '特种':7}

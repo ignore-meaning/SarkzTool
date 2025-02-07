@@ -32,6 +32,18 @@ def clear(filename:str):
     write(filename, {})
     return
 
+def transfer(file1:str='operationData_draft', file2:str='operationData'):
+    content = read(file1)
+    write(file2, content)
+    return
+
+def renovate(file1:str='operationData_draft', file2:str='operationData'):
+    content1 = read(file1)
+    content2 = read(file2)
+    content2.update(content1)
+    write(file2, content2)
+    return
+
 
 
 
