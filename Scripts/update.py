@@ -33,7 +33,7 @@ def operationUpdate():
             JsFunctions.transfer('operationData_draft', 'operationData')
             actionList.append('作战覆写')
         case '2':
-            JsFunctions.renovate('operationData_draft', 'operationData')
+            JsFunctions.renovate()
             actionList.append('作战更新')
         case '3':
             JsFunctions.clear('operationData_draft')

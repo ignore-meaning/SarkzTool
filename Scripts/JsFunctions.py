@@ -4,7 +4,8 @@ address = {
     'operationData_draft': os.path.join(os.path.dirname(__file__), '../data/operationData_draft.json'),
     'operationData': os.path.join(os.path.dirname(__file__), '../data/operationData.json'),
     'operatorData': os.path.join(os.path.dirname(__file__), '../data/operatorData.json'),
-    'treasureData': os.path.join(os.path.dirname(__file__), '../data/treasureData.json')
+    'treasureData': os.path.join(os.path.dirname(__file__), '../data/treasureData.json'),
+    'missionData': os.path.join(os.path.dirname(__file__), '../data/missionData.json')
 }
 
 
@@ -35,13 +36,6 @@ def clear(filename:str):
 def transfer(file1:str='operationData_draft', file2:str='operationData'):
     content = read(file1)
     write(file2, content)
-    return
-
-def renovate(file1:str='operationData_draft', file2:str='operationData'):
-    content1 = read(file1)
-    content2 = read(file2)
-    content2.update(content1)
-    write(file2, content2)
     return
 
 
@@ -98,4 +92,24 @@ def add_operation(level:int, operation_name:str, operator_list:list, treasure_li
             }
         )
     write('operationData_draft', content)
+    return
+
+def renovate():
+    content1 = read('operationData_draft')
+    content2 = read('operationData')
+    levels = content1.keys()
+    for level in levels:
+        if not(level in content2):
+            content2[level] = content1[level]
+        else:
+            missions = content1[level].keys()
+            for mission in missions:
+                if not(mission in content2[level]):
+                    content2[level][mission] = content1[level][mission]
+                else:
+                    newOperations = content1[level][mission]
+                    for newOperation in newOperations:
+                        if not(newOperation in content2[level][mission]):
+                            content2[level][mission].append(newOperation)
+    write('operationData', content2)
     return
