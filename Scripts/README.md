@@ -2,7 +2,9 @@
 
 * JsFunctions.py：与 .json 文件交互的函数
 
-* getOperators.py：通过 PRTS 的 API 获取所有干员的基础信息（名称、稀有度、职业）；通过读取 img/operators/ 下文件的名称获取可选干员名单（按游戏内规则排序）；将上面两条的结果存入 operatorData.json 文件
+* getOperators.py：通过 PRTS 的 API 获取所有干员的基础信息（名称、稀有度、职业）；通过读取 img/operators/ 下文件获取可用干员名单（按游戏内规则排序）；将上面两条的结果存入 operatorData.json 文件
+
+* getTreasures.py：通过 PRTS 的 API 获取所有藏品（包括思绪）；通过读取 img/treasures/ 下的文件获取可用藏品名单；将上面两条的结果存入 treasureData.json 文件
 
 ## 可外部调用的函数
 
@@ -41,7 +43,3 @@
 通过比对 img 文件夹下的文件名与 operatorData.json 所储存的全干员信息，计算当前可选的所有干员（按游戏内规则排序），存入 operatorData.json 文件并返回
 
 注：推荐使用 `JsFunctions.read('operatorData')['可用干员']` 而非该函数来读取可用干员
-
-
-
-

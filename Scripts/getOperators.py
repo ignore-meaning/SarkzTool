@@ -26,6 +26,7 @@ def operatorInformation(operatorName:str='阿米娅') -> dict:
         page = pages[page_id]
         if 'revisions' in page:
             content = page['revisions'][0]['*']
+            break
     parsed = mwparserfromhell.parse(content)
 
     templates = parsed.filter_templates()
@@ -119,7 +120,7 @@ def allSortedOperatorName() -> list:
 
     return list2
 
-def availableOperators():
+def availableOperators() -> list:
     filePath = os.path.join(os.path.dirname(__file__), '../img/operators/')
 
     operators = os.listdir(filePath)

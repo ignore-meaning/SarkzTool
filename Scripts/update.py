@@ -1,12 +1,13 @@
 import JsFunctions
 import getOperators
+import getTreasures
 
 
 
 def main():
     print('\n请选择进行的业务:\n1.作战数据更新\n2.干员数据更新\n3.藏品数据更新\n4.查看操作记录\n5.清除操作记录\n按 E 退出程序')
 
-    answer = input('>>')
+    answer = input('>> ')
     match answer:
         case 'E':
             exit()
@@ -24,7 +25,7 @@ def main():
 
 def operationUpdate():
     print('\n请选择操作:\n1.用 operationData_draft.json 中的内容覆写 operationData.json\n2.将 operationData_draft.json 中的作战添加至 operationData.json\n3.清空 operationData_draft.json 文件\n4.清空 operationData.json 文件（慎用！很难反悔）\n按 e 返回主界面')
-    answer = input('>>')
+    answer = input('>> ')
     match answer:
         case 'e':
             return
@@ -45,7 +46,7 @@ def operationUpdate():
 
 def operatorUpdate():
     print('\n请选择操作:\n1.向 PRTS 查询当前游戏实装的干员名单\n2.向 PRTS 查询所有干员的基础信息（最坏情况预计耗时 10 分钟）\n3.根据干员信息将所有干员进行排序（区分精二与否）\n4.根据 img 文件夹下的文件获取当前可用的干员\n5.一条龙服务！\n按 e 返回主界面')
-    answer = input('>>')
+    answer = input('>> ')
     match answer:
         case 'e':
             return
@@ -72,7 +73,23 @@ def operatorUpdate():
             operatorUpdate()
 
 def treasureUpdate():
-    print('\n尚未开发')
+    print('\n请选择操作:\n1.向 PRTS 查询肉鸽的藏品与思绪名单\n2.根据 img 文件夹下的文件获取当前可用的干员\n3.一条龙服务！\n按 e 返回主界面')
+    answer = input('>> ')
+    match answer:
+        case 'e':
+            return
+        case '1':
+            print('全藏品:', getTreasures.allTreasureName())
+            actionList.append('更新藏品')
+        case '2':
+            print('可用藏品:', getTreasures.availableTreasures())
+            actionList.append('更新可用藏品')
+        case '3':
+            getTreasures.allTreasureName()
+            getTreasures.availableTreasures()
+            actionList.append('藏品更新一条龙')
+        case _:
+            treasureUpdate()
 
 
 
