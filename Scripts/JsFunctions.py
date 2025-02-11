@@ -56,18 +56,21 @@ add_operation(level, mission, operator_list, treasure_list)：
         若 operationData.json 文件中已经有了更优记录（用更少的干员，更少的藏品），则这次的作战记录不会被添加（若消耗的时间过长，该功能可以被关闭）
 '''
 def subsetQ(list1:list, list2:list) -> bool:
-    m,n = len(list1), len(list2)
-    if m == 0:
+    if len(list1) == 0:
         return True
-    elif n == 0:
-        return False
     else:
-        for i in range(m):
-            for j in range(n):
-                if list1[i] == list2[j]:
-                    break
-                if j == n-1:
-                    return False
+        for i in list1:
+            if not(i in list2):
+                return False
+        return True
+    
+def operatorSubsetQ(list1:list, list2:list) -> bool:
+    if len(list1) == 0:
+        return True
+    else:
+        for operator in list1:
+            if not(operator in list2 or operator+'_2' in list2):
+                return False
         return True
 
 def add_operation(level:int, mission:str, operator_list:list, treasure_list:list, era:str):
@@ -113,3 +116,19 @@ def renovate():
                             content2[level][mission].append(newOperation)
     write('operationData', content2)
     return
+
+def feasibleMissions(operator_list:list, treasure_list:list, era:str) -> dict:
+    feasibleMission_list = {'1':[],'2':[],'3':[],'4':[],'5':[],'6':[],'7':[]}
+    operationData = read('operationData')
+    for level_str in operationData:
+        level = level_str.strip('Level ')
+        missions = operationData[level_str]
+        for mission in missions:
+            operation_list = missions[mission]
+            for operation in operation_list:
+                operators = operation['干员']
+                treasures = operation['藏品']
+                eraQ = operation['年代']
+                if operatorSubsetQ(operators, operator_list) and subsetQ(treasures, treasure_list) and eraQ == era and not(mission in feasibleMission_list[level]):
+                    feasibleMission_list[level].append(mission)
+    return feasibleMission_list
