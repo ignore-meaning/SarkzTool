@@ -7,7 +7,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("萨卡兹肉鸽奇妙小工具")
-        self.setGeometry(100, 100, 800, 600)
+        #self.setGeometry(100, 100, 600, 800)
         self.setWindowIcon(QIcon('img/operators/头像_凯尔希_2.png'))
 
         # 创建堆叠窗口容器

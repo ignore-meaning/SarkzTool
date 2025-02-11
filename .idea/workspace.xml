@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="363a6e9c-3710-4230-b5bc-4ade760bbf6d" name="更改" comment="">
+    <list default="true" id="363a6e9c-3710-4230-b5bc-4ade760bbf6d" name="更改" comment="更改operation为mission">
+      <change afterPath="$PROJECT_DIR$/Judge/FirstChildrenWindows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Judge/judge.py" beforeDir="false" afterPath="$PROJECT_DIR$/Judge/judge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Recorder/FirstChildrenWindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder/FirstChildrenWindows.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Recorder/recorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder/recorder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/Buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/Buttons.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/Page.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/Data_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/operationData.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/operationData.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/operationData_draft.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/operationData_draft.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,11 +49,20 @@
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Python.Buttons.executor&quot;: &quot;Run&quot;,
+    &quot;Python.judge.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.recorder.executor&quot;: &quot;Run&quot;,
+    &quot;Python.update.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/SarkzTool/Judge&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\SarkzTool\Judge" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="Buttons" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SarkzTool" />
@@ -114,6 +131,19 @@
       <option name="presentableId" value="Default" />
       <updated>1738756905630</updated>
     </task>
+    <task id="LOCAL-00001" summary="更改operation为mission">
+      <option name="closed" value="true" />
+      <created>1739268170675</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739268170675</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="更改operation为mission" />
+    <option name="LAST_COMMIT_MESSAGE" value="更改operation为mission" />
   </component>
 </project>

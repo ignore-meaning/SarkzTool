@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import os
-from common import Buttons
+from common import Buttons,Data_list
 img_path = os.path.join(os.path.dirname(__file__), '../img/')
 class FirstChildrenWindow(QDialog):
     selection_changed = pyqtSignal(list)  # 新增选择变更信号
@@ -74,7 +74,7 @@ class FirstChildrenWindow(QDialog):
             if widget := item.widget():
                 widget.deleteLater()
 
-    def get_selected_items(self):
-        """获取当前选中项"""
-        return [self.content_list[i]
-                for i, cb in enumerate(self.checkboxes) if cb.isChecked()]
+    # def get_selected_items(self):
+    #     """获取当前选中项"""
+    #     return [self.content_list[i]
+    #             for i, cb in enumerate(self.checkboxes) if cb.isChecked()]

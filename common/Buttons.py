@@ -29,7 +29,7 @@ class CustomButton(QPushButton):
         self.setCursor(Qt.PointingHandCursor)
 
         # 固定按钮的大小
-        self.setFixedSize(100, 50)  # 宽度 200，高度 50
+        self.setFixedSize(125, 50)  # 宽度 200，高度 50
 
 
 class ImageButton(QPushButton):
