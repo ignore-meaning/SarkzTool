@@ -3,21 +3,10 @@ from PyQt5.QtWidgets import *
 from Recorder.FirstChildrenWindows import FirstChildrenWindow
 from Scripts import JsFunctions
 from common import Buttons,ComboBox,Page
-global operator_list, treasure_list, operation_list
+global operator_list, treasure_list, mission_list
 operator_list = JsFunctions.read('operatorData')['可用干员']
 treasure_list = JsFunctions.read('treasureData')['可用藏品']
-operation_list = {
-        '1': ['坏邻居', '公害', '安全检查', '夺路而逃', '冰川期'],
-        '2': ['见闻峰会', '拆东补西', '排风口', '炉工志愿队', '有序清场', '卡兹瀑布', '丛林密布'],
-        '3': ['大旗一盘', '血脉之辩', '遮天蔽日', '劳作的清晨', '溃乱魔典', '盲盒商场', '火力小队', '机动队',
-              '守望的河水', '卫士不语功', '存亡之战', '或然面纱', '奉献', '斩首', '离歌的庭院', '赴敌者', '王冠之下'],
-        '4': ['年代断层', '朽败考察', '飞越大水坑', '腥红甬道', '现代战争法则', '假想对冲', '幽灵城', '神出鬼没',
-              '混沌', '争议频发'],
-        '5': ['寄人城池下', '计划耕种', '巫咒同盟', '通道封锁', '无罪净土', '浮空城接舷战', '残破学院', '建制',
-              '莱茵卫士', '紧急授课', '朝谒', '思维纠正', '魂灵朝谒'],
-        '6': ['谋求共识', '神圣的渴求', '洞天福地', '外道', '圣城', '授法', '不容拒绝'],
-        '7': ['不容拒绝']
-    }
+mission_list  = JsFunctions.read('missionData')
 class MainPage(Page.Page):  # 类名改为 PascalCase 规范
 
     def __init__(self, parent=None):
@@ -39,8 +28,8 @@ class MainPage(Page.Page):  # 类名改为 PascalCase 规范
         self.level_combo = ComboBox.CustomComboBox()
         self.level_combo.addItems(['1', '2', '3', '4', '5', '6'])
 
-        self.operation_combo = ComboBox.CustomComboBox()
-        self.operation_combo.addItems(operation_list['1'])
+        self.mission_combo = ComboBox.CustomComboBox()
+        self.mission_combo.addItems(mission_list['1'])
 
         self.emergency_check = QCheckBox('紧急')
         self.operator_btn = Buttons.CustomButton('干员')
@@ -51,7 +40,7 @@ class MainPage(Page.Page):  # 类名改为 PascalCase 规范
 
         # 添加控件到布局
         control_layout.addWidget(self.level_combo)
-        control_layout.addWidget(self.operation_combo)
+        control_layout.addWidget(self.mission_combo)
         control_layout.addWidget(self.emergency_check)
         control_layout.addWidget(self.operator_btn)
         control_layout.addWidget(self.treasure_btn)
@@ -72,7 +61,7 @@ class MainPage(Page.Page):  # 类名改为 PascalCase 规范
         self.setLayout(main_layout)
 
         # 信号连接
-        self.level_combo.currentTextChanged.connect(self.update_operations)
+        self.level_combo.currentTextChanged.connect(self.update_missions)
         self.operator_btn.clicked.connect(self.show_operator_window)
         self.treasure_btn.clicked.connect(self.show_treasure_window)
         self.submit_btn.clicked.connect(self.submit_operation)
@@ -87,12 +76,12 @@ class MainPage(Page.Page):  # 类名改为 PascalCase 规范
 
 
 
-    def update_operations(self):
+    def update_missions(self):
         """更新关卡选项"""
         level = self.level_combo.currentText()
         try:
-            self.operation_combo.clear()
-            self.operation_combo.addItems(operation_list.get(level, []))
+            self.mission_combo.clear()
+            self.mission_combo.addItems(mission_list.get(level, []))
         except KeyError:
             QMessageBox.warning(self, '错误', '无效的层数选择')
 
@@ -118,7 +107,7 @@ class MainPage(Page.Page):  # 类名改为 PascalCase 规范
         """提交作战信息"""
         try:
             level = int(self.level_combo.currentText())
-            operation = ('紧急' if self.emergency_check.isChecked() else '') + self.operation_combo.currentText()
+            mission = ('紧急' if self.emergency_check.isChecked() else '') + self.mission_combo.currentText()
             era = self.era_combo.currentText()
 
             if not self.selected_operators:
@@ -126,7 +115,7 @@ class MainPage(Page.Page):  # 类名改为 PascalCase 规范
 
             JsFunctions.add_operation(
                 level=level,
-                operation_name=operation,
+                mission=mission,
                 operator_list=Page.selected_operators,
                 treasure_list=Page.selected_treasures,
                 era=era
