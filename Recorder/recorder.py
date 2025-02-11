@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 from Recorder.FirstChildrenWindows import FirstChildrenWindow
 from Scripts import JsFunctions
-from common import Buttons,ComboBox
+from common import Buttons,ComboBox,Page
 global operator_list, treasure_list, operation_list
 operator_list = JsFunctions.read('operatorData')['可用干员']
 treasure_list = JsFunctions.read('treasureData')['可用藏品']
@@ -18,12 +18,10 @@ operation_list = {
         '6': ['谋求共识', '神圣的渴求', '洞天福地', '外道', '圣城', '授法', '不容拒绝'],
         '7': ['不容拒绝']
     }
-class MainPage(QWidget):  # 类名改为 PascalCase 规范
+class MainPage(Page.Page):  # 类名改为 PascalCase 规范
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.selected_operators = []
-        self.selected_treasures = []
         self.init_ui()
         self.init_subwindows()
 
@@ -100,12 +98,12 @@ class MainPage(QWidget):  # 类名改为 PascalCase 规范
 
     def update_operator_display(self, selection):
         """更新干员显示"""
-        self.selected_operators = selection
+        Page.Page.selected_operators = selection
         self.operator_display.setText(', '.join(selection))
 
     def update_treasure_display(self, selection):
         """更新藏品显示"""
-        self.selected_treasures = selection
+        Page.Page.selected_treasures = selection
         self.treasure_display.setText(', '.join(selection))
 
     def show_operator_window(self):
@@ -129,8 +127,8 @@ class MainPage(QWidget):  # 类名改为 PascalCase 规范
             JsFunctions.add_operation(
                 level=level,
                 operation_name=operation,
-                operator_list=self.selected_operators,
-                treasure_list=self.selected_treasures,
+                operator_list=Page.selected_operators,
+                treasure_list=Page.selected_treasures,
                 era=era
             )
             QMessageBox.information(self, '提交成功', '作战信息已提交')
