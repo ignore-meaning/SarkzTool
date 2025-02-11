@@ -113,7 +113,7 @@ def allSortedOperatorName() -> list:
     list2 = []
     for operatorName in list1:
         list2.append(operatorName)
-        if operatorData[operatorName]['稀有度'] >= 4: list2.append(operatorName + '_2')
+        if operatorData[operatorName]['稀有度'] >= 3: list2.append(operatorName + '_2')
     
     operatorData.update({'全干员排序': list2})
     JsFunctions.write('operatorData', operatorData)
