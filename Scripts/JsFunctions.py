@@ -44,10 +44,10 @@ def transfer(file1:str='operationData_draft', file2:str='operationData'):
 '''
 subsetQ(list1,list2)：判断列表 list1 是否为 list2 的“子集”（即前者的元素也是后者的元素，不考虑顺序）。空集是任意集合（包括另一个空集）的子集。返回值为 True 或 False。
 
-add_operation(level, operation_name, operator_list, treasure_list)：
+add_operation(level, mission, operator_list, treasure_list)：
     向 operationData.json 文件中添加作战记录，所需参数分别为：
         作战层数 level；
-        作战名 operation_name；
+        作战名 mission；
         干员列表 operator_list；
         藏品列表 treasure_list；
         年代名称 era
@@ -70,14 +70,14 @@ def subsetQ(list1:list, list2:list) -> bool:
                     return False
         return True
 
-def add_operation(level:int, operation_name:str, operator_list:list, treasure_list:list, era:str):
+def add_operation(level:int, mission:str, operator_list:list, treasure_list:list, era:str):
     content = read('operationData_draft')
     LevelStr="Level %d"%(level)
     if not(LevelStr in content):
         content[LevelStr] = {}
-    if not(operation_name in content[LevelStr]):
-        content[LevelStr][operation_name] = []
-    operation_list = content[LevelStr][operation_name]
+    if not(mission in content[LevelStr]):
+        content[LevelStr][mission] = []
+    operation_list = content[LevelStr][mission]
     flag = True
     for operation in operation_list:    # 若想取消“判断是否存在更优记录”的功能，将该 for 循环语句注释掉即可
         if operation["年代"] == era and subsetQ(operation['干员'], operator_list) and subsetQ(operation['藏品'], treasure_list):
