@@ -74,6 +74,20 @@ def operatorSubsetQ(list1:list, list2:list) -> bool:
         return True
     else:
         for operator in list1:
+            if operator[:3] == '阿米娅':
+                rarity = ''
+                if operator[-2:] == '_2':
+                    rarity = '_2'
+                profession_list = ['', '(近卫)', '(医疗)']
+                amiya = ['阿米娅'+profession+rarity for profession in profession_list] + ['阿米娅'+profession+rarity+'_2' for profession in profession_list]
+                flag = False
+                for ami in amiya:
+                    if ami in list2:
+                        flag = True
+                        break
+                if flag == False:
+                    return False
+                continue
             if not(operator in list2 or operator+'_2' in list2):
                 return False
         return True
