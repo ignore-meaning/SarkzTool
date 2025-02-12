@@ -102,8 +102,8 @@ class MainPage(QWidget):  # 类名改为 PascalCase 规范
         self.treasure_window.show()
 
     def judge_operation(self):
-        feasible_mission=JsFunctions.feasibleMissions(Data_list.DataList.operator_list,
-                                                      Data_list.DataList.treasure_list,
+        feasible_mission=JsFunctions.feasibleMissions(Data_list.DataList.selected_operators,
+                                                      Data_list.DataList.selected_treasures,
                                                       self.era_combo.currentText())
         # print(str(feasible_mission))
         self.feasible_mission_display.setText('\n'.join(f'{key}: {value}' for key, value in feasible_mission.items()))
