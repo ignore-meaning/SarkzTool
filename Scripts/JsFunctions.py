@@ -83,7 +83,7 @@ def add_operation(level:int, mission:str, operator_list:list, treasure_list:list
     operation_list = content[LevelStr][mission]
     flag = True
     for operation in operation_list:    # 若想取消“判断是否存在更优记录”的功能，将该 for 循环语句注释掉即可
-        if operation["年代"] == era and subsetQ(operation['干员'], operator_list) and subsetQ(operation['藏品'], treasure_list):
+        if operation["年代"] == era and operatorSubsetQ(operation['干员'], operator_list) and subsetQ(operation['藏品'], treasure_list):
             flag = False
             break
     if flag:
