@@ -19,7 +19,7 @@ def operatorInformation(operatorName:str='阿米娅') -> dict:
         "prop": "revisions",
         "rvprop": "content",
     }
-    response = requests.get(url, params=params)
+    response = requests.get(url, params)
     data = response.json()
     pages = data['query']['pages']
     for page_id in pages:
@@ -27,9 +27,9 @@ def operatorInformation(operatorName:str='阿米娅') -> dict:
         if 'revisions' in page:
             content = page['revisions'][0]['*']
             break
-    parsed = mwparserfromhell.parse(content)
+    pageContent = mwparserfromhell.parse(content)
 
-    templates = parsed.filter_templates()
+    templates = pageContent.filter_templates()
     for template in templates:
         if template.name.strip()[:10] == 'CharinfoV2':
             rarity = template.get("稀有度").value.strip()
@@ -51,9 +51,10 @@ def addOperator(operatorName:str='凯尔希'):
 
 
 '''
-allOperatorName()：获取一个 由明日方舟所有干员名称组成的 列表。可以通过选择取消注释其中几行来顺带执行 “向 operatorData.json 文件写入该列表” 的功能
+allOperatorName()：获取一个由 明日方舟所有干员名称 组成的列表。可以通过选择取消注释其中几行来顺带执行 “向 operatorData.json 文件写入该列表” 的功能
 addAllOperatorInformation()：根据 operatorData.json 中的全干员获取所有干员的信息并记录在 operatorData.json 中（调用 API 不能太过频繁，此处限制为 2 秒一次，可以更改）
 allSortedOperatorName()：将干员按照游戏内的顺序排好（含精二）
+availableOperators()：根据 img 下的文件读取当前可用的干员（已排序）
 '''
 def allOperatorName() -> list:
     params = {
@@ -66,22 +67,22 @@ def allOperatorName() -> list:
     response = requests.get(url, params)
     data = response.json()
 
-    operator_names = [member['title'] for member in data['query']["categorymembers"]]
-    operator_pageid = [member['pageid'] for member in data['query']["categorymembers"]]
+    operatorName_list = [member['title'] for member in data['query']["categorymembers"]]
+    # operator_pageid = [member['pageid'] for member in data['query']["categorymembers"]]
 
     # 可以通过注释下面三行来取消写入 operatorData.json 文件
     operatorData = JsFunctions.read('operatorData')
-    operatorData.update({'全干员': operator_names})
+    operatorData.update({'全干员': operatorName_list})
     JsFunctions.write('operatorData',operatorData)
 
-    return operator_names
+    return operatorName_list
 
 def addAllOperatorInformation():
     operatorData = JsFunctions.read('operatorData')
-    operator_names = operatorData["全干员"]
+    operatorName_list = operatorData["全干员"]
     addedOperators = []
 
-    for operatorName in operator_names:
+    for operatorName in operatorName_list:
         if not(operatorName in operatorData):
             addOperator(operatorName)   # 这个操作其实挺愚蠢的。每添加一个干员都要重新读取 operatorData.json 一遍
             addedOperators.append(operatorName)
@@ -98,9 +99,9 @@ def allSortedOperatorName() -> list:
             list0[i].append([])
 
     operatorData = JsFunctions.read('operatorData')
-    operator_names = operatorData['全干员']
+    operatorName_list = operatorData['全干员']
 
-    for operatorName in operator_names:
+    for operatorName in operatorName_list:
         rarity = operatorData[operatorName]['稀有度']
         profession = operatorData[operatorName]['职业']
         list0[5-rarity][proCom[profession]].append(operatorName)
@@ -123,12 +124,12 @@ def allSortedOperatorName() -> list:
 def availableOperators() -> list:
     filePath = os.path.join(os.path.dirname(__file__), '../img/operators/')
 
-    operators = os.listdir(filePath)
+    fileName_list = os.listdir(filePath)
 
     operatorData = JsFunctions.read('operatorData')
     operator_full = operatorData['全干员排序']
 
-    operators = list(filter(lambda operatorName: '头像_'+operatorName+'.png' in operators, operator_full))
+    operators = list(filter(lambda operatorName: '头像_'+operatorName+'.png' in fileName_list, operator_full))
 
     operatorData.update({'可用干员': operators})
     JsFunctions.write('operatorData',operatorData)

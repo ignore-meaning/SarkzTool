@@ -14,6 +14,7 @@ address = {
 read(filename)：读取 address[filename] 文件的内容并翻译为 python 能理解的对象（大概是字典）并返回
 write(filename, content)：将 python 对象（大概是字典） content 翻译为 json 内容并覆写 address[filename] 文件
 rewrite(filename)：将 address[filename] 文件用自己本身的内容覆写一遍（用于统一格式）
+transfer(file1, file2)：用文件 file1 的内容去覆写 file2 文件
 '''
 def read(filename:str='operationData_draft'):
     with open(address[filename], "r", encoding="utf-8") as OPD_F:
@@ -42,7 +43,8 @@ def transfer(file1:str='operationData_draft', file2:str='operationData'):
 
 
 '''
-subsetQ(list1,list2)：判断列表 list1 是否为 list2 的“子集”（即前者的元素也是后者的元素，不考虑顺序）。空集是任意集合（包括另一个空集）的子集。返回值为 True 或 False。
+subsetQ(list1, list2)：判断列表 list1 是否为 list2 的“子集”（即前者的元素也是后者的元素，不考虑顺序）。空集是任意集合（包括另一个空集）的子集。返回值为 True 或 False。
+operatorSubsetQ(list1, list2)：判断两个干员列表的“子集关系”
 
 add_operation(level, mission, operator_list, treasure_list)：
     向 operationData.json 文件中添加作战记录，所需参数分别为：
@@ -54,6 +56,9 @@ add_operation(level, mission, operator_list, treasure_list)：
     向 operationData.json 文件中添加作战记录会考虑以下情形：
         若该关卡尚未被创建过，这次会创建该关卡；
         若 operationData.json 文件中已经有了更优记录（用更少的干员，更少的藏品），则这次的作战记录不会被添加（若消耗的时间过长，该功能可以被关闭）
+
+renovate()：将 operationData_draft.json 中的作战添加至 operationData.json
+feasibleMissions(operator_list, treasure_list, era)：根据干员列表 operator_list、藏品列表 treasure_list、年代 era 来获取所有当前打得过的关卡
 '''
 def subsetQ(list1:list, list2:list) -> bool:
     if len(list1) == 0:

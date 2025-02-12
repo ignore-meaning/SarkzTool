@@ -6,7 +6,10 @@ import time
 url = "https://prts.wiki/api.php"   # prts 站点提供的 api 接口
 
 
-
+'''
+allTreasureName()：调用 API 获取所有的藏品与思绪（已排序）
+availableTreasures()：根据 img 下的文件读取当前可用的藏品与思绪
+'''
 def allTreasureName() -> list:
     params = {
         "action": "query",
