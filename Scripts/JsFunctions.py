@@ -17,11 +17,19 @@ rewrite(filename)：将 address[filename] 文件用自己本身的内容覆写�
 transfer(file1, file2)：用文件 file1 的内容去覆写 file2 文件
 '''
 def read(filename:str='operationData_draft'):
-    with open(address[filename], "r", encoding="utf-8") as OPD_F:
+    if filename in address:
+        fileAddress = address[filename]
+    else:
+        fileAddress = filename
+    with open(fileAddress, "r", encoding="utf-8") as OPD_F:
         return json.load(OPD_F)
 
 def write(filename:str, content):
-    with open(address[filename], "w", encoding="utf-8") as OPD_F:
+    if filename in address:
+        fileAddress = address[filename]
+    else:
+        fileAddress = filename
+    with open(fileAddress, "w", encoding="utf-8") as OPD_F:
         json.dump(content, OPD_F, ensure_ascii=False, indent=4)
     return
 
@@ -138,16 +146,36 @@ def renovate():
 
 def feasibleMissions(operator_list:list, treasure_list:list, era:str) -> dict:
     feasibleMission_list = {'1':[],'2':[],'3':[],'4':[],'5':[],'6':[],'7':[]}
+    missionData = read('missionData')
     operationData = read('operationData')
-    for level_str in operationData:
-        level = level_str.strip('Level ')
-        missions = operationData[level_str]
+
+    # 换了一种保证关卡顺序的算法，但有屎山风险
+    # 原先的算法也保留在下面了
+    for level in missionData:
+        level_str = 'Level ' + level
+        missions = missionData[level]
         for mission in missions:
-            operation_list = missions[mission]
-            for operation in operation_list:
-                operators = operation['干员']
-                treasures = operation['藏品']
-                eraQ = operation['年代']
-                if operatorSubsetQ(operators, operator_list) and subsetQ(treasures, treasure_list) and eraQ == era and not(mission in feasibleMission_list[level]):
-                    feasibleMission_list[level].append(mission)
+            for mission_em in [mission, '紧急' + mission]:
+                if level_str in operationData and mission_em in operationData[level_str]:
+                    operations = operationData[level_str][mission_em]
+                    for operation in operations:
+                        operators = operation['干员']
+                        treasures = operation['藏品']
+                        eraQ = operation['年代']
+                        if operatorSubsetQ(operators, operator_list) and subsetQ(treasures, treasure_list) and eraQ == era and not(mission_em in feasibleMission_list[level]):
+                            feasibleMission_list[level].append(mission_em)
+
+
+    # for level_str in operationData:
+    #     level = level_str.strip('Level ')
+    #     missions = operationData[level_str]
+    #     for mission in missions:
+    #         operation_list = missions[mission]
+    #         for operation in operation_list:
+    #             operators = operation['干员']
+    #             treasures = operation['藏品']
+    #             eraQ = operation['年代']
+    #             if operatorSubsetQ(operators, operator_list) and subsetQ(treasures, treasure_list) and eraQ == era and not(mission in feasibleMission_list[level]):
+    #                 feasibleMission_list[level].append(mission)
+
     return feasibleMission_list
