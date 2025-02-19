@@ -45,7 +45,7 @@ class FirstChildrenWindow(QDialog):
             row = index // columns
             col = index % columns
             icon_path = self.get_icon_path(content)
-            imagebuton = Buttons.ImageButton(icon_path)
+            imagebuton = Buttons.ImageButton(icon_path,content)
             imagebuton.clicked.connect(self.emit_selection_changed)  # 连接信号
 
             self.grid_layout.addWidget(imagebuton, row, col, Qt.AlignCenter)
@@ -73,6 +73,25 @@ class FirstChildrenWindow(QDialog):
             item = self.grid_layout.takeAt(0)
             if widget := item.widget():
                 widget.deleteLater()
+
+    def reset(self):
+        """重置选中状态"""
+        # 获取当前应选中的项
+        if self.window_type == "干员":
+            selected_names = set(Data_list.DataList.selected_operators)
+        elif self.window_type == "藏品":
+            selected_names = set(Data_list.DataList.selected_treasures)
+        else:
+            selected_names = set()
+
+        # 遍历所有按钮，直接设置状态
+        for ib in self.imagebuttons:
+            is_selected = ib.get_name() in selected_names
+            if (is_selected and not ib.is_checked()) or (not is_selected and ib.is_checked()) :
+               ib.click()
+
+
+
 
     # def get_selected_items(self):
     #     """获取当前选中项"""

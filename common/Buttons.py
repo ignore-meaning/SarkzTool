@@ -33,8 +33,9 @@ class CustomButton(QPushButton):
 
 
 class ImageButton(QPushButton):
-    def __init__(self, image_path):
+    def __init__(self, image_path,image_name):
         super().__init__()
+        self.name=image_name
         self.normal_pixmap = QPixmap(image_path)
         if self.normal_pixmap.isNull():
             raise ValueError("Invalid image file path")
@@ -44,6 +45,9 @@ class ImageButton(QPushButton):
         self._connect_signals()
         # 设置鼠标悬停时的光标样式为手型
         self.setCursor(Qt.PointingHandCursor)
+
+    def get_name(self):
+        return self.name
 
     def _setup_ui(self):
         # Resize the image to 50x50 px
@@ -122,9 +126,6 @@ class ImageButton(QPushButton):
         """返回当前选中状态"""
         return self.checkbox.isChecked()
 
-    def set_checked(self, state):
-        """设置选中状态"""
-        self.checkbox.setChecked(state)
 
 
 # 使用示例
@@ -136,7 +137,6 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
 
-    button = ImageButton(img_path)  # 替换为实际图片路径
+    button = ImageButton(img_path,'伊桑')  # 替换为实际图片路径
     button.show()
-
     sys.exit(app.exec_())

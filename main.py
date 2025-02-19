@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
 
     def switch_page(self, index):
         self.stacked_widget.setCurrentIndex(index)
+        self.stacked_widget.widget(index).reset()
 
 if __name__ == "__main__":
     app = QApplication([])

@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="363a6e9c-3710-4230-b5bc-4ade760bbf6d" name="更改" comment="更改operation为mission">
-      <change afterPath="$PROJECT_DIR$/Judge/FirstChildrenWindows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Judge/judge.py" beforeDir="false" afterPath="$PROJECT_DIR$/Judge/judge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Recorder/FirstChildrenWindows.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder/FirstChildrenWindows.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Recorder/recorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/Recorder/recorder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/Buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/Buttons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/Page.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/Data_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/operationData.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/operationData.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/operationData_draft.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/operationData_draft.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +30,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/ignore-meaning/SarkzTool.git&quot;,
-    &quot;accountId&quot;: &quot;027b08c6-2c5f-45ce-97e5-045519fc790b&quot;
+    &quot;accountId&quot;: &quot;eb8ce304-f9b8-41d0-a086-eed37456dbaf&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -54,8 +51,11 @@
     &quot;Python.recorder.executor&quot;: &quot;Run&quot;,
     &quot;Python.update.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/SarkzTool/Judge&quot;
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/SarkzTool/Judge&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -118,7 +118,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5b207ade9991-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.17890.14" />
+        <option value="bundled-python-sdk-495700d161d3-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.220" />
       </set>
     </attachedChunks>
   </component>

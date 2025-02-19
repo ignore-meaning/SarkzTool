@@ -13,6 +13,10 @@ class MainPage(QWidget):  # 类名改为 PascalCase 规范
         self.init_subwindows()
         #self.show()
 
+    def reset(self):
+        self.operator_window.reset()
+        self.treasure_window.reset()
+
     def init_ui(self):
         # 主布局设置
         main_layout = QVBoxLayout()
