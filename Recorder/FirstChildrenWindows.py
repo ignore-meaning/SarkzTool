@@ -78,17 +78,21 @@ class FirstChildrenWindow(QDialog):
         """重置选中状态"""
         # 获取当前应选中的项
         if self.window_type == "干员":
-            selected_names = set(Data_list.DataList.selected_operators)
+            selected_names = Data_list.DataList.selected_operators
         elif self.window_type == "藏品":
-            selected_names = set(Data_list.DataList.selected_treasures)
+            selected_names = Data_list.DataList.selected_treasures
         else:
-            selected_names = set()
+            selected_names = []
 
         # 遍历所有按钮，直接设置状态
         for ib in self.imagebuttons:
             is_selected = ib.get_name() in selected_names
             if (is_selected and not ib.is_checked()) or (not is_selected and ib.is_checked()) :
                ib.click()
+        if self.window_type == "干员":
+            Data_list.DataList.selected_operators = selected_names
+        elif self.window_type == "藏品":
+            Data_list.DataList.selected_treasures = selected_names
 
 
 
